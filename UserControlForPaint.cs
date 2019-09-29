@@ -15,6 +15,13 @@ namespace DXFRenderingBitmap
         public Control realPaintingCanvas = new Control();
         private DXFRendering.GRAPHICAL.CompleteDxfDrawingStruct unscaledGraphicalData = new DXFRendering.GRAPHICAL.CompleteDxfDrawingStruct();
         private const int marginForDrawControl = 5;
+
+        // how to scale the dxf display and how to rotate it
+        public double currentscalefactor;
+        public double currentanglevalue;
+
+        private Bitmap bitmapInitial;
+        private Bitmap bitmapRender;
         /// <summary>
         /// contains descriptions of layers found in dxf files and how to draw them. 
         /// String key is the layer name, tupple: byte for draw order, pen for a drawing Pen
@@ -52,6 +59,8 @@ namespace DXFRenderingBitmap
             realPaintingCanvas.BackColor = Color.LightCyan;
             realPaintingCanvas.Paint += RealPaintingCanvas_Paint;
             this.ResumeLayout();
+            this.currentscalefactor = 1.0;
+            this.currentanglevalue = 0.0;
         }
         //step 0. get the file structure from dxf and gradually turn it into drawing struct
         public void prepareGraphicalDataStruct(DXFRendering.LOGICAL.completeDxfStruct in_structFromFile)
@@ -80,7 +89,35 @@ namespace DXFRenderingBitmap
                     DXFRendering.LOGICAL.MyDxfArc castArc = someEntry as DXFRendering.LOGICAL.MyDxfArc;
                     tmpEntry2 = new DXFRendering.GRAPHICAL.MyDxfArcForDisplay(castArc.XCenter, castArc.YCenter, castArc.Radius, castArc.StartAngleDegree, castArc.EndAngleDegree, usedPen);
                 }
+                // distilled it
                 this.unscaledGraphicalData.addSingleEntry(tmpEntry2, tmpboundbox.XLowerLeft, tmpboundbox.YLowerLeft, tmpboundbox.XUpperRight, tmpboundbox.YUpperRight);
+            }
+        }
+        //step 1. render dxf data from unscaledGraphicalData to bitmapInitial. Also initialize bitmapInitial
+        public void drawImageToBitmapUsingCurrentScaleFactor()
+        {
+            double bitmapInitialWidth = Math.Abs(this.unscaledGraphicalData.XLowerLeft - this.unscaledGraphicalData.XUpperRight);
+            double bitmapInitialHeight = Math.Abs(this.unscaledGraphicalData.YLowerLeft-this.unscaledGraphicalData.YUpperRight);
+            double newWidthPrescaled = currentscalefactor * bitmapInitialWidth;
+            double newHeightPrescaled = currentscalefactor * bitmapInitialHeight;
+            bitmapInitial = new Bitmap((int)newWidthPrescaled, (int)newHeightPrescaled);
+            using (Graphics ee = Graphics.FromImage(bitmapInitial))
+            {
+                ee.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                ee.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                // RENDERING CODE GOES HERE !
+                foreach (DXFRendering.GRAPHICAL.DXFentryForDisplay item in unscaledGraphicalData)
+                {
+                    if (item is DXFRendering.GRAPHICAL.MyDxfLineForDisplay)
+                    {
+                        DXFRendering.GRAPHICAL.MyDxfLineForDisplay lineEntry = (item as DXFRendering.GRAPHICAL.MyDxfLineForDisplay);
+                        ee.DrawLine(lineEntry.penStructure, (float)lineEntry.XStart, (float)lineEntry.YStart, (float)lineEntry.XEnd, (float)lineEntry.YEnd);
+                    } else if (item is DXFRendering.GRAPHICAL.MyDxfArcForDisplay)
+                    {
+                        DXFRendering.GRAPHICAL.MyDxfArcForDisplay arcEntry = (item as DXFRendering.GRAPHICAL.MyDxfArcForDisplay);
+                        ee.DrawArc(arcEntry.penStructure,(float)arcEntry.XUpper, (float)arcEntry.YUpper, (float)arcEntry.Width, (float)arcEntry.Height, (float)arcEntry.startAngle, (float)arcEntry.sweepAngle);
+                    }
+                }
             }
         }
 

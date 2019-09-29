@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownScaleFactor = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
             this.labelScaleFactor = new System.Windows.Forms.Label();
             this.FolderBtn = new System.Windows.Forms.Button();
             this.listBoxDxfFiles = new System.Windows.Forms.ListBox();
             this.textBoxFolderPath = new System.Windows.Forms.TextBox();
             this.userControlForPaint1 = new DXFRenderingBitmap.UserControlForPaint();
-            this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownScaleFactor = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScaleFactor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -59,6 +59,32 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "All good things";
+            // 
+            // numericUpDownScaleFactor
+            // 
+            this.numericUpDownScaleFactor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numericUpDownScaleFactor.Location = new System.Drawing.Point(36, 450);
+            this.numericUpDownScaleFactor.Name = "numericUpDownScaleFactor";
+            this.numericUpDownScaleFactor.Size = new System.Drawing.Size(73, 20);
+            this.numericUpDownScaleFactor.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(115, 446);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 26);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Rotation\r\nangle";
+            // 
+            // numericUpDownAngle
+            // 
+            this.numericUpDownAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numericUpDownAngle.Location = new System.Drawing.Point(168, 450);
+            this.numericUpDownAngle.Name = "numericUpDownAngle";
+            this.numericUpDownAngle.Size = new System.Drawing.Size(85, 20);
+            this.numericUpDownAngle.TabIndex = 6;
             // 
             // labelScaleFactor
             // 
@@ -113,29 +139,6 @@
             this.userControlForPaint1.Size = new System.Drawing.Size(532, 479);
             this.userControlForPaint1.TabIndex = 3;
             // 
-            // numericUpDownAngle
-            // 
-            this.numericUpDownAngle.Location = new System.Drawing.Point(168, 450);
-            this.numericUpDownAngle.Name = "numericUpDownAngle";
-            this.numericUpDownAngle.Size = new System.Drawing.Size(85, 20);
-            this.numericUpDownAngle.TabIndex = 6;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(115, 446);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 26);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Rotation\r\nangle";
-            // 
-            // numericUpDownScaleFactor
-            // 
-            this.numericUpDownScaleFactor.Location = new System.Drawing.Point(36, 450);
-            this.numericUpDownScaleFactor.Name = "numericUpDownScaleFactor";
-            this.numericUpDownScaleFactor.Size = new System.Drawing.Size(73, 20);
-            this.numericUpDownScaleFactor.TabIndex = 8;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,8 +150,8 @@
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScaleFactor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
             this.ResumeLayout(false);
 
         }

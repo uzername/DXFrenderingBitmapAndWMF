@@ -39,7 +39,10 @@ namespace DXFRenderingBitmap
 
         private void listBoxDxfFiles_SelectedValueChanged(object sender, EventArgs e)
         {
+            //prepare parameters
             DXFRendering.LOGICAL.singleDXFListBoxItem value = (DXFRendering.LOGICAL.singleDXFListBoxItem)this.listBoxDxfFiles.SelectedItem;
+            double angleCurrent = (double) numericUpDownAngle.Value;
+            double scaleCurrent = (double)numericUpDownScaleFactor.Value;
             //retrieve the logical structure of dxf file
             DXFRendering.LOGICAL.completeDxfStruct obtainedStruct = DXFRendering.LOGICAL.DxfReadWrapper.processDxfFile(value.fullPath);
             DXFRendering.LOGICAL.MyDxfBoundingBox boundStruct = obtainedStruct.GetBoundingBox();
@@ -48,6 +51,8 @@ namespace DXFRenderingBitmap
             //render the structure to bitmap using scale
             //rotate the bitmap and render it to another bitmap which will be displayed every time we redraw control
             userControlForPaint1.prepareGraphicalDataStruct(obtainedStruct);
+            userControlForPaint1.currentscalefactor = scaleCurrent;
+            userControlForPaint1.currentanglevalue = angleCurrent;
         }
     }
 }
