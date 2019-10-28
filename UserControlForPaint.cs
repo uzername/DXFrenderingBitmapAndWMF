@@ -17,11 +17,17 @@ namespace DXFRenderingBitmap
         private const int marginForDrawControl = 5;
 
         // how to scale the dxf display and how to rotate it
+        /// <summary>
+        /// the scale factor. do not squish value in percnt here, divide it by 100 beforehand
+        /// </summary>
         public double currentscalefactor;
+        /// <summary>
+        /// angle value in radians goes here 
+        /// </summary>
         public double currentanglevalue;
 
-        private Bitmap bitmapInitial;
-        private Bitmap bitmapRender;
+        private Bitmap bitmapInitial = null;
+        private Bitmap bitmapRender = null;
         /// <summary>
         /// contains descriptions of layers found in dxf files and how to draw them. 
         /// String key is the layer name, tupple: byte for draw order, pen for a drawing Pen
@@ -62,9 +68,11 @@ namespace DXFRenderingBitmap
             this.currentscalefactor = 1.0;
             this.currentanglevalue = 0.0;
         }
+
         //step 0. get the file structure from dxf and gradually turn it into drawing struct
         public void prepareGraphicalDataStruct(DXFRendering.LOGICAL.completeDxfStruct in_structFromFile)
         {
+            unscaledGraphicalData = new DXFRendering.GRAPHICAL.CompleteDxfDrawingStruct();
             int lngthOfStruct = in_structFromFile.getSize();
             for (int i = 0; i < lngthOfStruct; i++) { //read and convert entries from supplied struct to display struct with data ready to display
                 DXFRendering.LOGICAL.DXFdrawingEntry someEntry = in_structFromFile.getItemByIndex(i);
@@ -93,11 +101,14 @@ namespace DXFRenderingBitmap
                 this.unscaledGraphicalData.addSingleEntry(tmpEntry2, tmpboundbox.XLowerLeft, tmpboundbox.YLowerLeft, tmpboundbox.XUpperRight, tmpboundbox.YUpperRight);
             }
         }
-        //step 1. render dxf data from unscaledGraphicalData to bitmapInitial. Also initialize bitmapInitial
+        //step 1. render dxf data from unscaledGraphicalData to bitmapInitial. Also initialize bitmapInitial. currentscalefactor should be set up beforehand
         public void drawImageToBitmapUsingCurrentScaleFactor()
         {
             double bitmapInitialWidth = Math.Abs(this.unscaledGraphicalData.XLowerLeft - this.unscaledGraphicalData.XUpperRight);
             double bitmapInitialHeight = Math.Abs(this.unscaledGraphicalData.YLowerLeft-this.unscaledGraphicalData.YUpperRight);
+            //you know, dxf file might not be located at 0; 0 as lower Left. So I apply movement coefficients
+            double unscaledOffsetX = this.unscaledGraphicalData.XLowerLeft;
+            double unscaledOffsetY = this.unscaledGraphicalData.YLowerLeft;
             double newWidthPrescaled = currentscalefactor * bitmapInitialWidth;
             double newHeightPrescaled = currentscalefactor * bitmapInitialHeight;
             bitmapInitial = new Bitmap((int)newWidthPrescaled, (int)newHeightPrescaled);
@@ -111,19 +122,79 @@ namespace DXFRenderingBitmap
                     if (item is DXFRendering.GRAPHICAL.MyDxfLineForDisplay)
                     {
                         DXFRendering.GRAPHICAL.MyDxfLineForDisplay lineEntry = (item as DXFRendering.GRAPHICAL.MyDxfLineForDisplay);
-                        ee.DrawLine(lineEntry.penStructure, (float)lineEntry.XStart, (float)lineEntry.YStart, (float)lineEntry.XEnd, (float)lineEntry.YEnd);
+                        ee.DrawLine(lineEntry.penStructure, (float)((lineEntry.XStart-unscaledOffsetX)*currentscalefactor), (float)((lineEntry.YStart-unscaledOffsetY)*currentscalefactor), 
+                            (float)((lineEntry.XEnd-unscaledOffsetX)*currentscalefactor), (float)((lineEntry.YEnd-unscaledOffsetY)*currentscalefactor));
                     } else if (item is DXFRendering.GRAPHICAL.MyDxfArcForDisplay)
                     {
                         DXFRendering.GRAPHICAL.MyDxfArcForDisplay arcEntry = (item as DXFRendering.GRAPHICAL.MyDxfArcForDisplay);
-                        ee.DrawArc(arcEntry.penStructure,(float)arcEntry.XUpper, (float)arcEntry.YUpper, (float)arcEntry.Width, (float)arcEntry.Height, (float)arcEntry.startAngle, (float)arcEntry.sweepAngle);
+                        ee.DrawArc(arcEntry.penStructure,
+                            (float)((arcEntry.XUpper - unscaledOffsetX)*currentscalefactor), (float)((arcEntry.YUpper-unscaledOffsetY)*currentscalefactor), 
+                            (float)(arcEntry.Width*currentscalefactor), (float)(arcEntry.Height*currentscalefactor), 
+                            (float)arcEntry.startAngle, (float)arcEntry.sweepAngle);
                     }
                 }
+            }
+
+            
+
+
+        }
+
+        private Bitmap RotateImageUsingCurrentRotationAngle(Bitmap in_bitmapRender)
+        {
+            //First, re-center the image in a larger image that has a margin/frame
+            //to compensate for the rotated image's increased size
+            float angle = (float)currentanglevalue;
+            Bitmap rotateMe = in_bitmapRender.Clone(new Rectangle(0,0,in_bitmapRender.Width, in_bitmapRender.Height),in_bitmapRender.PixelFormat);
+            /*
+            double ALPHA_DEG = currentanglevalue;
+            double BETA_DEG = 90 - currentanglevalue;
+            double ALPHA_RAD = ConvertDegreesToRadians(ALPHA_DEG);
+            double BETA_RAD = ConvertDegreesToRadians(BETA_DEG);
+            */
+            double ALPHA_RAD = currentanglevalue;
+            double BETA_RAD = Math.PI/2.0 - currentanglevalue;
+            double newHeight = Math.Abs(Math.Abs(rotateMe.Height * Math.Sin(ALPHA_RAD)) + Math.Abs(rotateMe.Width * Math.Sin(BETA_RAD)));
+            double newWidth = Math.Abs(Math.Abs(rotateMe.Height * Math.Cos(ALPHA_RAD)) + Math.Abs(rotateMe.Width * Math.Cos(BETA_RAD)));
+            double offsetHeight = (newHeight - rotateMe.Height) / 2.0;
+            double offsetWidth = (newWidth - rotateMe.Width) / 2.0;
+            System.Diagnostics.Debug.Assert(newHeight >= 0);
+            System.Diagnostics.Debug.Assert(newWidth >= 0);
+            var bmp = new Bitmap((int)newWidth, (int)newHeight);
+
+            using (Graphics g = Graphics.FromImage(bmp))
+                g.DrawImageUnscaled(rotateMe, (int)offsetWidth, (int)offsetHeight, bmp.Width, bmp.Height);
+
+            rotateMe = bmp;
+
+            //Now, actually rotate the image
+            Bitmap rotatedImage = new Bitmap(rotateMe.Width, rotateMe.Height);
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                g.TranslateTransform(rotateMe.Width / 2, rotateMe.Height / 2);   //set the rotation point as the center into the matrix
+                g.RotateTransform(angle);                                        //rotate
+                g.TranslateTransform(-rotateMe.Width / 2, -rotateMe.Height / 2); //restore rotation point into the matrix
+                g.DrawImage(rotateMe, new Point(0, 0));                          //draw the image on the new bitmap
+            }
+
+            return rotatedImage;
+        }
+        // step 2. rotate bitmapInitial and render it to bitmapRender
+        public void drawImageToBitmapUsingCurrentAngle()  {
+            if (bitmapInitial != null)
+            {
+                bitmapRender = RotateImageUsingCurrentRotationAngle(bitmapInitial);
             }
         }
 
         private void RealPaintingCanvas_Paint(object sender, PaintEventArgs e)
         {
-
+            if (bitmapRender != null)
+            {
+                
+                e.Graphics.DrawImage(bitmapRender, new Point(0, 0));
+            }
         }
 
         private void UserControlForPaint_Resize(object sender, EventArgs e)

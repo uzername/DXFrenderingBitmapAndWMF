@@ -42,7 +42,7 @@ namespace DXFRenderingBitmap
             //prepare parameters
             DXFRendering.LOGICAL.singleDXFListBoxItem value = (DXFRendering.LOGICAL.singleDXFListBoxItem)this.listBoxDxfFiles.SelectedItem;
             double angleCurrent = (double) numericUpDownAngle.Value;
-            double scaleCurrent = (double)numericUpDownScaleFactor.Value;
+            double scaleCurrent = (double)numericUpDownScaleFactor.Value /100d;
             //retrieve the logical structure of dxf file
             DXFRendering.LOGICAL.completeDxfStruct obtainedStruct = DXFRendering.LOGICAL.DxfReadWrapper.processDxfFile(value.fullPath);
             DXFRendering.LOGICAL.MyDxfBoundingBox boundStruct = obtainedStruct.GetBoundingBox();
@@ -53,6 +53,9 @@ namespace DXFRenderingBitmap
             userControlForPaint1.prepareGraphicalDataStruct(obtainedStruct);
             userControlForPaint1.currentscalefactor = scaleCurrent;
             userControlForPaint1.currentanglevalue = angleCurrent;
+            userControlForPaint1.drawImageToBitmapUsingCurrentScaleFactor();
+            userControlForPaint1.drawImageToBitmapUsingCurrentAngle();
+            this.userControlForPaint1.Refresh();
         }
     }
 }

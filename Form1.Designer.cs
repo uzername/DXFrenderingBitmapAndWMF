@@ -63,16 +63,32 @@
             // numericUpDownScaleFactor
             // 
             this.numericUpDownScaleFactor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDownScaleFactor.Location = new System.Drawing.Point(36, 450);
+            this.numericUpDownScaleFactor.DecimalPlaces = 2;
+            this.numericUpDownScaleFactor.Location = new System.Drawing.Point(51, 450);
+            this.numericUpDownScaleFactor.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDownScaleFactor.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this.numericUpDownScaleFactor.Name = "numericUpDownScaleFactor";
-            this.numericUpDownScaleFactor.Size = new System.Drawing.Size(73, 20);
+            this.numericUpDownScaleFactor.Size = new System.Drawing.Size(69, 20);
             this.numericUpDownScaleFactor.TabIndex = 8;
+            this.numericUpDownScaleFactor.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(115, 446);
+            this.label1.Location = new System.Drawing.Point(129, 446);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 26);
             this.label1.TabIndex = 7;
@@ -81,9 +97,14 @@
             // numericUpDownAngle
             // 
             this.numericUpDownAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDownAngle.Location = new System.Drawing.Point(168, 450);
+            this.numericUpDownAngle.Location = new System.Drawing.Point(186, 450);
+            this.numericUpDownAngle.Maximum = new decimal(new int[] {
+            359,
+            0,
+            0,
+            0});
             this.numericUpDownAngle.Name = "numericUpDownAngle";
-            this.numericUpDownAngle.Size = new System.Drawing.Size(85, 20);
+            this.numericUpDownAngle.Size = new System.Drawing.Size(67, 20);
             this.numericUpDownAngle.TabIndex = 6;
             // 
             // labelScaleFactor
@@ -92,9 +113,9 @@
             this.labelScaleFactor.AutoSize = true;
             this.labelScaleFactor.Location = new System.Drawing.Point(0, 446);
             this.labelScaleFactor.Name = "labelScaleFactor";
-            this.labelScaleFactor.Size = new System.Drawing.Size(37, 26);
+            this.labelScaleFactor.Size = new System.Drawing.Size(51, 26);
             this.labelScaleFactor.TabIndex = 4;
-            this.labelScaleFactor.Text = "Scale \r\nfactor";
+            this.labelScaleFactor.Text = "Scale \r\nfactor (%)";
             // 
             // FolderBtn
             // 

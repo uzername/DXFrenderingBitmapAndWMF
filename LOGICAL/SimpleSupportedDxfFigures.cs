@@ -53,7 +53,7 @@ namespace DXFRendering.LOGICAL
                 bethaPrecomputedRad += Math.PI*2;
                 bethaPrecomputedDegree += 360;
             }
-            System.Diagnostics.Debug.Assert(alphaPrecomputedRad < 360);
+            //System.Diagnostics.Debug.Assert(alphaPrecomputedRad < 360);
             //arc endpoints
             double YZeroAlpha = YCenter + Radius * Math.Sin(alphaPrecomputedRad);
             double XZeroAlpha = XCenter + Radius * Math.Cos(alphaPrecomputedRad);
