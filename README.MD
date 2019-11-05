@@ -1,0 +1,1 @@
+﻿Parse dxf file using IxMilia library and render them to bitmap and save them to bmp and to wmf (using https://github.com/papnkukn/wmf )
