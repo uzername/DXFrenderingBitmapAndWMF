@@ -38,8 +38,8 @@ namespace DXFRenderingBitmap
         {
             collectionOfLayerDefinitions = new Dictionary<string, Tuple<byte, Pen>>();
             Pen BluePenAlu = new Pen(new SolidBrush(Color.Blue), 3.0f);
-            Pen YellowPenExtProf = new Pen(new SolidBrush(Color.DarkOrange), 1.0f);
-            YellowPenExtProf.DashPattern = new float[] { 3.0f, 5.0f, 3.0f, 7.0f, 3.0f };
+            Pen YellowPenExtProf = new Pen(new SolidBrush(Color.DarkOrange), 2.0f);
+            //YellowPenExtProf.DashPattern = new float[] { 3.0f, 5.0f, 3.0f, 7.0f, 3.0f };
             Pen RedPenPvc = new Pen(new SolidBrush(Color.Red), 1.0f);
             Pen OrangePenThermalBridge = new Pen(new SolidBrush(Color.OrangeRed), 1.0f);
             Pen genericPen = new Pen(Color.Black);
@@ -47,6 +47,8 @@ namespace DXFRenderingBitmap
             collectionOfLayerDefinitions.Add("ALU", new Tuple<byte, Pen>(2, BluePenAlu));
             collectionOfLayerDefinitions.Add("PVC", new Tuple<byte, Pen>(3, RedPenPvc));
             collectionOfLayerDefinitions.Add("Thermal bridge", new Tuple<byte, Pen>(4, OrangePenThermalBridge));
+            collectionOfLayerDefinitions.Add("Thermical bridge", new Tuple<byte, Pen>(4, OrangePenThermalBridge));
+            collectionOfLayerDefinitions.Add("Termical bridge", new Tuple<byte, Pen>(4, OrangePenThermalBridge));
             collectionOfLayerDefinitions.Add("0", new Tuple<byte, Pen>(5, genericPen));
             collectionOfLayerDefinitions.Add("AM_0", new Tuple<byte, Pen>(6, genericPen));
             collectionOfLayerDefinitions.Add("AM_1", new Tuple<byte, Pen>(7, genericPen));
@@ -67,6 +69,25 @@ namespace DXFRenderingBitmap
             this.ResumeLayout();
             this.currentscalefactor = 1.0;
             this.currentanglevalue = 0.0;
+        }
+
+        internal void saveGraphicalDataToFile(string usedFname)
+        {
+            System.IO.FileInfo usedFnameInfo = new System.IO.FileInfo(usedFname);
+                string usedFExt = usedFnameInfo.Extension.ToLower();
+                switch (usedFExt)  {
+                    case (".bmp"):     {
+                            this.bitmapRender.Save(usedFname);
+                            break;
+                        }
+                    case (".wmf"):     {
+
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            
         }
 
         //step 0. get the file structure from dxf and gradually turn it into drawing struct
@@ -111,7 +132,7 @@ namespace DXFRenderingBitmap
             double unscaledOffsetY = this.unscaledGraphicalData.YLowerLeft;
             double newWidthPrescaled = currentscalefactor * bitmapInitialWidth;
             double newHeightPrescaled = currentscalefactor * bitmapInitialHeight;
-            bitmapInitial = new Bitmap((int)newWidthPrescaled, (int)newHeightPrescaled);
+            bitmapInitial = new Bitmap((int)Math.Round(newWidthPrescaled)+1, (int)Math.Round(newHeightPrescaled)+1);
             using (Graphics ee = Graphics.FromImage(bitmapInitial))
             {
                 ee.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -134,8 +155,10 @@ namespace DXFRenderingBitmap
                     }
                 }
             }
-
-            
+            this.VerticalScroll.Value = 0; this.HorizontalScroll.Value = 0;
+            realPaintingCanvas.Width = bitmapInitial.Width; realPaintingCanvas.Height = bitmapInitial.Height;
+            realPaintingCanvas.Location = new Point(0, 0);
+            bitmapRender = bitmapInitial.Clone(new Rectangle(0, 0, bitmapInitial.Width, bitmapInitial.Height), bitmapInitial.PixelFormat); 
 
 
         }

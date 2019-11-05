@@ -28,125 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownScaleFactor = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
-            this.labelScaleFactor = new System.Windows.Forms.Label();
-            this.FolderBtn = new System.Windows.Forms.Button();
-            this.listBoxDxfFiles = new System.Windows.Forms.ListBox();
-            this.textBoxFolderPath = new System.Windows.Forms.TextBox();
+            this.groupBoxSaveControls = new System.Windows.Forms.GroupBox();
+            this.buttonOpenFile = new System.Windows.Forms.Button();
+            this.buttonSaveFile = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.buttonPerformSaving = new System.Windows.Forms.Button();
             this.userControlForPaint1 = new DXFRenderingBitmap.UserControlForPaint();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScaleFactor)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
+            this.groupBoxSaveControls.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // groupBoxSaveControls
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.numericUpDownScaleFactor);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.numericUpDownAngle);
-            this.groupBox1.Controls.Add(this.labelScaleFactor);
-            this.groupBox1.Controls.Add(this.FolderBtn);
-            this.groupBox1.Controls.Add(this.listBoxDxfFiles);
-            this.groupBox1.Controls.Add(this.textBoxFolderPath);
-            this.groupBox1.Location = new System.Drawing.Point(1, 1);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 479);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "All good things";
-            // 
-            // numericUpDownScaleFactor
-            // 
-            this.numericUpDownScaleFactor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDownScaleFactor.DecimalPlaces = 2;
-            this.numericUpDownScaleFactor.Location = new System.Drawing.Point(51, 450);
-            this.numericUpDownScaleFactor.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numericUpDownScaleFactor.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.numericUpDownScaleFactor.Name = "numericUpDownScaleFactor";
-            this.numericUpDownScaleFactor.Size = new System.Drawing.Size(69, 20);
-            this.numericUpDownScaleFactor.TabIndex = 8;
-            this.numericUpDownScaleFactor.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(129, 446);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 26);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Rotation\r\nangle";
-            // 
-            // numericUpDownAngle
-            // 
-            this.numericUpDownAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDownAngle.Location = new System.Drawing.Point(186, 450);
-            this.numericUpDownAngle.Maximum = new decimal(new int[] {
-            359,
-            0,
-            0,
-            0});
-            this.numericUpDownAngle.Name = "numericUpDownAngle";
-            this.numericUpDownAngle.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDownAngle.TabIndex = 6;
-            // 
-            // labelScaleFactor
-            // 
-            this.labelScaleFactor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelScaleFactor.AutoSize = true;
-            this.labelScaleFactor.Location = new System.Drawing.Point(0, 446);
-            this.labelScaleFactor.Name = "labelScaleFactor";
-            this.labelScaleFactor.Size = new System.Drawing.Size(51, 26);
-            this.labelScaleFactor.TabIndex = 4;
-            this.labelScaleFactor.Text = "Scale \r\nfactor (%)";
-            // 
-            // FolderBtn
-            // 
-            this.FolderBtn.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FolderBtn.Location = new System.Drawing.Point(207, 11);
-            this.FolderBtn.Name = "FolderBtn";
-            this.FolderBtn.Size = new System.Drawing.Size(46, 23);
-            this.FolderBtn.TabIndex = 3;
-            this.FolderBtn.Text = "Folder";
-            this.FolderBtn.UseVisualStyleBackColor = true;
-            this.FolderBtn.Click += new System.EventHandler(this.FolderBtn_Click);
-            // 
-            // listBoxDxfFiles
-            // 
-            this.listBoxDxfFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBoxSaveControls.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxDxfFiles.FormattingEnabled = true;
-            this.listBoxDxfFiles.Location = new System.Drawing.Point(0, 40);
-            this.listBoxDxfFiles.Name = "listBoxDxfFiles";
-            this.listBoxDxfFiles.Size = new System.Drawing.Size(253, 394);
-            this.listBoxDxfFiles.TabIndex = 1;
-            this.listBoxDxfFiles.SelectedValueChanged += new System.EventHandler(this.listBoxDxfFiles_SelectedValueChanged);
+            this.groupBoxSaveControls.Controls.Add(this.buttonPerformSaving);
+            this.groupBoxSaveControls.Controls.Add(this.textBox2);
+            this.groupBoxSaveControls.Controls.Add(this.textBox1);
+            this.groupBoxSaveControls.Controls.Add(this.buttonSaveFile);
+            this.groupBoxSaveControls.Controls.Add(this.buttonOpenFile);
+            this.groupBoxSaveControls.Location = new System.Drawing.Point(0, 474);
+            this.groupBoxSaveControls.Name = "groupBoxSaveControls";
+            this.groupBoxSaveControls.Size = new System.Drawing.Size(797, 70);
+            this.groupBoxSaveControls.TabIndex = 4;
+            this.groupBoxSaveControls.TabStop = false;
+            this.groupBoxSaveControls.Text = "SaveAndLoad";
             // 
-            // textBoxFolderPath
+            // buttonOpenFile
             // 
-            this.textBoxFolderPath.Location = new System.Drawing.Point(0, 14);
-            this.textBoxFolderPath.Name = "textBoxFolderPath";
-            this.textBoxFolderPath.Size = new System.Drawing.Size(201, 20);
-            this.textBoxFolderPath.TabIndex = 0;
-            this.textBoxFolderPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxFolderPath_KeyUp);
+            this.buttonOpenFile.Location = new System.Drawing.Point(7, 15);
+            this.buttonOpenFile.Name = "buttonOpenFile";
+            this.buttonOpenFile.Size = new System.Drawing.Size(97, 23);
+            this.buttonOpenFile.TabIndex = 0;
+            this.buttonOpenFile.Text = "Open file dialog";
+            this.buttonOpenFile.UseVisualStyleBackColor = true;
+            this.buttonOpenFile.Click += new System.EventHandler(this.buttonOpenFile_Click);
+            // 
+            // buttonSaveFile
+            // 
+            this.buttonSaveFile.Location = new System.Drawing.Point(7, 42);
+            this.buttonSaveFile.Name = "buttonSaveFile";
+            this.buttonSaveFile.Size = new System.Drawing.Size(97, 23);
+            this.buttonSaveFile.TabIndex = 1;
+            this.buttonSaveFile.Text = "Save File Dialog";
+            this.buttonSaveFile.UseVisualStyleBackColor = true;
+            this.buttonSaveFile.Click += new System.EventHandler(this.buttonSaveFile_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(111, 17);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(263, 20);
+            this.textBox1.TabIndex = 2;
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(111, 44);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(263, 20);
+            this.textBox2.TabIndex = 3;
+            // 
+            // buttonPerformSaving
+            // 
+            this.buttonPerformSaving.Location = new System.Drawing.Point(410, 40);
+            this.buttonPerformSaving.Name = "buttonPerformSaving";
+            this.buttonPerformSaving.Size = new System.Drawing.Size(109, 23);
+            this.buttonPerformSaving.TabIndex = 4;
+            this.buttonPerformSaving.Text = "Perform Saving";
+            this.buttonPerformSaving.UseVisualStyleBackColor = true;
+            this.buttonPerformSaving.Click += new System.EventHandler(this.buttonPerformSaving_Click);
             // 
             // userControlForPaint1
             // 
@@ -155,39 +106,34 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.userControlForPaint1.AutoScroll = true;
             this.userControlForPaint1.BackColor = System.Drawing.Color.White;
-            this.userControlForPaint1.Location = new System.Drawing.Point(266, 1);
+            this.userControlForPaint1.Location = new System.Drawing.Point(0, 0);
             this.userControlForPaint1.Name = "userControlForPaint1";
-            this.userControlForPaint1.Size = new System.Drawing.Size(532, 479);
+            this.userControlForPaint1.Size = new System.Drawing.Size(797, 468);
             this.userControlForPaint1.TabIndex = 3;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 481);
+            this.ClientSize = new System.Drawing.Size(800, 544);
+            this.Controls.Add(this.groupBoxSaveControls);
             this.Controls.Add(this.userControlForPaint1);
-            this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScaleFactor)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
+            this.groupBoxSaveControls.ResumeLayout(false);
+            this.groupBoxSaveControls.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label labelScaleFactor;
-        private System.Windows.Forms.Button FolderBtn;
-        private System.Windows.Forms.ListBox listBoxDxfFiles;
-        private System.Windows.Forms.TextBox textBoxFolderPath;
         private UserControlForPaint userControlForPaint1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDownAngle;
-        private System.Windows.Forms.NumericUpDown numericUpDownScaleFactor;
+        private System.Windows.Forms.GroupBox groupBoxSaveControls;
+        private System.Windows.Forms.Button buttonPerformSaving;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonSaveFile;
+        private System.Windows.Forms.Button buttonOpenFile;
     }
 }
 
