@@ -24,7 +24,7 @@ namespace DXFRenderingBitmap
 
         }
 
-        
+        private DXFRendering.LOGICAL.completeDxfStruct keptDxfStruct;
         private void handleFile(String in_PathToDXF)
         {
             //retrieve the logical structure of dxf file
@@ -35,6 +35,7 @@ namespace DXFRenderingBitmap
             //render the structure to bitmap using scale
             //rotate the bitmap (= not used in this edition) and render it to another bitmap which will be displayed every time we redraw control 
             userControlForPaint1.setupCollectionOfLayerDefinitions();
+            keptDxfStruct = obtainedStruct;
             userControlForPaint1.prepareGraphicalDataStruct(obtainedStruct);
             //calculate 
             double wdxf = Math.Abs(obtainedStruct.GetBoundingBox().XLowerLeft - obtainedStruct.GetBoundingBox().XUpperRight);
@@ -78,7 +79,7 @@ namespace DXFRenderingBitmap
 
         private void buttonPerformSaving_Click(object sender, EventArgs e)
         {
-            this.userControlForPaint1.saveGraphicalDataToFile(textBox2.Text);
+            this.userControlForPaint1.saveGraphicalDataToFile(textBox2.Text,keptDxfStruct);
         }
     }
 }

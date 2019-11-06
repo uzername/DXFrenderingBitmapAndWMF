@@ -70,8 +70,12 @@ namespace DXFRenderingBitmap
             this.currentscalefactor = 1.0;
             this.currentanglevalue = 0.0;
         }
-
-        internal void saveGraphicalDataToFile(string usedFname)
+        /// <summary>
+        /// save image to bmp or to wmf. 
+        /// </summary>
+        /// <param name="usedFname">path to file (full). Should end with .bmp or .wmf</param>
+        /// <param name="in_structToUse"> structure to render. If you rendering bmp then pass null </param>
+        internal void saveGraphicalDataToFile(string usedFname, DXFRendering.LOGICAL.completeDxfStruct in_structToUse)
         {
             System.IO.FileInfo usedFnameInfo = new System.IO.FileInfo(usedFname);
                 string usedFExt = usedFnameInfo.Extension.ToLower();
@@ -81,7 +85,11 @@ namespace DXFRenderingBitmap
                             break;
                         }
                     case (".wmf"):     {
-
+                        //prepare scale factor
+                        //this.currentscalefactor
+                            if (in_structToUse != null)  {
+                                DXFRenderingBitmap.WMF.ExportDXFtoWMF.exportCompleteDrawingStructToWMF(usedFname, this.currentscalefactor, in_structToUse);
+                            }
                             break;
                         }
                     default:
