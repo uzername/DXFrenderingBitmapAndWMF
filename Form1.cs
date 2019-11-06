@@ -27,6 +27,8 @@ namespace DXFRenderingBitmap
         private DXFRendering.LOGICAL.completeDxfStruct keptDxfStruct;
         private void handleFile(String in_PathToDXF)
         {
+            try
+            {
             //retrieve the logical structure of dxf file
             DXFRendering.LOGICAL.completeDxfStruct obtainedStruct = DXFRendering.LOGICAL.DxfReadWrapper.processDxfFile(in_PathToDXF);
             DXFRendering.LOGICAL.MyDxfBoundingBox boundStruct = obtainedStruct.GetBoundingBox();
@@ -48,6 +50,12 @@ namespace DXFRenderingBitmap
             
             userControlForPaint1.drawImageToBitmapUsingCurrentScaleFactor();
             this.userControlForPaint1.Refresh();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                
+            }
         }
         private void buttonOpenFile_Click(object sender, EventArgs e)
         {
@@ -79,7 +87,17 @@ namespace DXFRenderingBitmap
 
         private void buttonPerformSaving_Click(object sender, EventArgs e)
         {
-            this.userControlForPaint1.saveGraphicalDataToFile(textBox2.Text,keptDxfStruct);
+            try
+            {
+                this.userControlForPaint1.saveGraphicalDataToFile(textBox2.Text, keptDxfStruct);
+                MessageBox.Show("Saving done");
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message);
+                throw;
+            }
+            
         }
     }
 }

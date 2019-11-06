@@ -68,6 +68,7 @@ namespace DXFRenderingBitmap.WMF
             for (int i = 0; i < allElementsLength; i++)
             {
                 DXFRendering.LOGICAL.DXFdrawingEntry someEntry = in_dxfStruct.getItemByIndex(i);
+                // I use y candidates to perform flipping vertically. It is possible to redirect Y axy, but that WMF entry is barely supported
                 if (someEntry is DXFRendering.LOGICAL.MyDxfLine)
                 {
                     MyDxfLine lineEntry = someEntry as MyDxfLine;
@@ -75,9 +76,15 @@ namespace DXFRenderingBitmap.WMF
                     if (indx >= 0)
                     {
                         wmf.AddSelectObject(indx);
+                        int y1candidate = (int)Math.Ceiling((lineEntry.YStart - unscaledOffsetY) * in_scalefactor);
+                        int y2candidate = (int)Math.Ceiling((lineEntry.YEnd - unscaledOffsetY) * in_scalefactor);
                         wmf.AddLine(
-                        new Point((int)Math.Ceiling((lineEntry.XStart - unscaledOffsetX) * in_scalefactor), (int)Math.Ceiling((lineEntry.YStart - unscaledOffsetY) * in_scalefactor)),
-                        new Point((int)Math.Ceiling((lineEntry.XEnd - unscaledOffsetX) * in_scalefactor), (int)Math.Ceiling((lineEntry.YEnd - unscaledOffsetY) * in_scalefactor))
+                        new Point(
+                            (int)Math.Ceiling((lineEntry.XStart - unscaledOffsetX) * in_scalefactor), 
+                            -y1candidate + hght ),
+                        new Point(
+                            (int)Math.Ceiling((lineEntry.XEnd - unscaledOffsetX) * in_scalefactor), 
+                            -y2candidate+hght)
                         );
                     }
                 } else if (someEntry is DXFRendering.LOGICAL.MyDxfArc)  {
@@ -87,21 +94,29 @@ namespace DXFRenderingBitmap.WMF
                     if (indx >= 0)
                     {
                         wmf.AddSelectObject(indx);
+                        int yRectangleCandidate = (int)Math.Ceiling((castArc.YCenter - castArc.Radius - unscaledOffsetY) * in_scalefactor);
+                        int dimCandidate = (int)Math.Ceiling(2 * castArc.Radius * in_scalefactor);
                         Rectangle boundRectangle = new Rectangle(
                             (int)Math.Ceiling((castArc.XCenter - castArc.Radius - unscaledOffsetX) * in_scalefactor),
-                            (int)Math.Ceiling((castArc.YCenter - castArc.Radius - unscaledOffsetY) * in_scalefactor),
-                            (int)Math.Ceiling(2 * castArc.Radius * in_scalefactor),
-                            (int)Math.Ceiling(2 * castArc.Radius * in_scalefactor));
-
+                            -yRectangleCandidate+hght - dimCandidate ,
+                            dimCandidate ,
+                            dimCandidate);
+                        int yPnt1Candidate = (int)Math.Ceiling((castArc.YCenter + castArc.Radius * Math.Sin(castArc.StartAngleRad) - unscaledOffsetY) * in_scalefactor);
                         Point pnt1 = new Point(
                             (int)Math.Ceiling((castArc.XCenter + castArc.Radius * Math.Cos(castArc.StartAngleRad) - unscaledOffsetX) * in_scalefactor),
-                            (int)Math.Ceiling((castArc.YCenter + castArc.Radius * Math.Sin(castArc.StartAngleRad) - unscaledOffsetY) * in_scalefactor)
+                            -yPnt1Candidate + hght
                             );
+                        int yPnt2Candidate = (int)Math.Ceiling((castArc.YCenter + castArc.Radius * Math.Sin(castArc.EndAngleRad) - unscaledOffsetY) * in_scalefactor);
                         Point pnt2 = new Point(
                             (int)Math.Ceiling((castArc.XCenter + castArc.Radius * Math.Cos(castArc.EndAngleRad) - unscaledOffsetX) * in_scalefactor),
-                            (int)Math.Ceiling((castArc.YCenter + castArc.Radius * Math.Sin(castArc.EndAngleRad) - unscaledOffsetY) * in_scalefactor)
+                            -yPnt2Candidate+hght
                             );
-                        wmf.AddArc(boundRectangle, pnt2, pnt1);
+                        wmf.AddArc(boundRectangle, pnt1, pnt2);
+                        /*
+                        wmf.AddRectangle(boundRectangle);
+                        wmf.AddSelectObject(3);
+                        wmf.AddLine(pnt1, pnt2);
+                        */
                     }
                 }
             }

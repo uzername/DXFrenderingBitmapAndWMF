@@ -163,6 +163,7 @@ namespace DXFRenderingBitmap
                     }
                 }
             }
+            bitmapInitial.RotateFlip(RotateFlipType.RotateNoneFlipY);
             this.VerticalScroll.Value = 0; this.HorizontalScroll.Value = 0;
             realPaintingCanvas.Width = bitmapInitial.Width; realPaintingCanvas.Height = bitmapInitial.Height;
             realPaintingCanvas.Location = new Point(0, 0);
